@@ -7,11 +7,11 @@ def main(log_file_path):
     log_file = get_log_file_path_from_cmd_line(log_file_path)
     return
 
-# TODO: Step 3
+ TODO: Step 3
 def get_log_file_path_from_cmd_line(log_file_path):
     return
 
-# TODO: Steps 4-7
+ TODO: Steps 4-7
    print("Checking for SSHD records...")
 sshd_records, _ = filter_log_by_regex(log_file, 'sshd', ignore_case=True, print_summary=True, print_records=True)
 
@@ -41,11 +41,11 @@ pam_records, _ = filter_log_by_regex(log_file, 'pam', ignore_case=True, print_su
     """
 return
 
-# TODO: Step 8
+   TODO: Step 8
 def tally_port_traffic(log_file):
   port_traffic = {}
 
-with open(log_file, 'r') as file:
+    with open(log_file, 'r') as file:
         for line in file:
             match = re.search(r'DPT=(\d+)', line)
             if match:
@@ -53,12 +53,13 @@ with open(log_file, 'r') as file:
                 if port in port_traffic:
                     port_traffic[port] += 1
                 else:
-                    port_traffic[port] = 1 
-    return
+                    port_traffic[port] = 1
 
-# TODO: Step 9
+    return  port_traffic
+
+ TODO: Step 9
 def generate_port_traffic_report(log_file, port_number):
-    report_file = f"destination_port_{port}_report.csv"
+   report_file = f"destination_port_{port}_report.csv"
 
     with open(log_file, 'r') as file, open(report_file, 'w', newline='') as csvfile:
         fieldnames = ['Date', 'Time', 'Source IP', 'Destination IP', 'Source Port', 'Destination Port']
@@ -83,16 +84,47 @@ def generate_port_traffic_report(log_file, port_number):
                     'Destination IP': dst_ip,
                     'Source Port': src_port,
                     'Destination Port': port
-                })
     return
 
 # TODO: Step 11
 def generate_invalid_user_report(log_file):
+     report_file = "invalid_users.csv"
+
+    with open(log_file, 'r') as file, open(report_file, 'w', newline='') as csvfile:
+        fieldnames = ['Date', 'Time', 'Username', 'IP Address']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for line in file:
+            match = re.search(r'(\w+ \d+ \d+:\d+:\d+) .*Invalid user (.*?) from (.*?) ', line)
+            if match:
+                date_time = match.group(1).split()
+                date = date_time[0]
+                time = date_time[1]
+                username = match.group(2)
+                ip_address = match.group(3)
+
+                writer.writerow({
+                    'Date': date,
+                    'Time': time,
+                    'Username': username,
+                    'IP Address': ip_address
     return
 
 # TODO: Step 12
 def generate_source_ip_log(log_file, ip_address):
+    log_file_name = f"source_ip_{source_ip.replace('.', '_')}.log"
+
+    with open(log_file, 'r') as file, open(log_file_name, 'w') as logfile:
+        for line in file:
+            if f"SRC={source_ip}" in line:
+                logfile.write(line)
     return
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python lab4_script_template.py <log_file_path>")
+        sys.exit(1)
+        
+    main(log_file_path)
