@@ -1,14 +1,19 @@
+import sys
+import os
+import re
+import csv
 
-def main():
-    log_file = get_log_file_path_from_cmd_line()
+def main(log_file_path):
+    log_file = get_log_file_path_from_cmd_line(log_file_path)
+    return
 
 # TODO: Step 3
-def get_log_file_path_from_cmd_line():
+def get_log_file_path_from_cmd_line(log_file_path):
     return
 
 # TODO: Steps 4-7
-def filter_log_by_regex(log_file, regex, ignore_case=True, print_summary=False, print_records=False):
-    """Gets a list of records in a log file that match a specified regex.
+
+"""Gets a list of records in a log file that match a specified regex.
 
     Args:
         log_file (str): Path of the log file
@@ -24,6 +29,7 @@ def filter_log_by_regex(log_file, regex, ignore_case=True, print_summary=False, 
 
 # TODO: Step 8
 def tally_port_traffic(log_file):
+   
     return
 
 # TODO: Step 9
